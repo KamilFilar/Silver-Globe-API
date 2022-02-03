@@ -124,7 +124,6 @@ export default {
   async calcMoonPhase(req, res, next) {
     if (!req.params.date) {
         let currentDate = new Date();
-        console.log(currentDate)
         const PHASE = getPhaseparams(currentDate);
 
         return await res.status(200).send({

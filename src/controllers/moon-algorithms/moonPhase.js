@@ -1,3 +1,7 @@
+// This file is from: https://github.com/ryanseys/lune 
+// Some functions have changed
+// Apache 2.0           (03.02.2022)
+
 // Phases of the moon & precision
 const NEW = 0;
 const FIRST = 1;
