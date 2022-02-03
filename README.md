@@ -1,5 +1,5 @@
 # :last_quarter_moon_with_face: API SilverGlobe :first_quarter_moon_with_face:
-> The repository contains the complete engineering thesis code (backend - Express.js).
+> The repository contains the REST API for SilverGlobe app.
 
 
 ## Get started
