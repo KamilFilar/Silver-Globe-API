@@ -1,3 +1,4 @@
+import dotenv from "dotenv";
 import express from "express";
 import bodyParser from "body-parser";
 import { fileURLToPath } from 'url';
@@ -7,6 +8,9 @@ import { notFound, catchErrors } from "./middlewares/errors.js";
 import config from "./config/config.js";
 // Import routes
 import moonRoutes from "./routes/moonRoutes.js";
+import emailRoutes from "./routes/emailRoutes.js";
+
+dotenv.config({ path: '.env' });
 
 const app = express();
 const __filename = fileURLToPath(import.meta.url);
@@ -21,6 +25,7 @@ app.use(bodyParser.json());
 
 // Routes config
 app.use('/api/moon', moonRoutes());
+app.use('/api/', emailRoutes());
 
 
 // Errors handling
