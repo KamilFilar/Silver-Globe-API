@@ -1,3 +1,4 @@
+import pool from "./../config/dbConfig.js"
 import {
   getLunarAge,
   getJulianDate,
@@ -70,8 +71,9 @@ let getPhaseparams = (date) => {
     const DISTANCE = getDistance(date);
     const PHASES_NEXT_DATES = getMoonPhases(date);
     const PHASE_INFO = definePhase(AGE);
+    const currentIllumination = parseInt(ILLUMINATION);
 
-    return { DATE, CALCPHASE, AGE, ILLUMINATION, DISTANCE, PHASES_NEXT_DATES, PHASE_INFO}
+    return { DATE, CALCPHASE, AGE, ILLUMINATION, DISTANCE, PHASES_NEXT_DATES, PHASE_INFO, currentIllumination}
 }
 
 export default {
@@ -125,17 +127,36 @@ export default {
     if (!req.params.date) {
         let currentDate = new Date();
         const PHASE = getPhaseparams(currentDate);
+        let MOON_IMG = "http://localhost:8080/assets/images/moon/";
+        
+        const query = "SELECT * FROM images WHERE `id_phase` = ?  AND `illumination_min` = ? OR `illumination_max` = ?";
+        pool.getConnection((err, connection) => {
+            if (err) 
+                throw err;
 
-        return await res.status(200).send({
-            date: PHASE.DATE,
-            age: PHASE.AGE,
-            actualPhase: PHASE.PHASE_INFO.phase,
-            behaviour: PHASE.PHASE_INFO.behaviour,
-            calcPhase: PHASE.CALCPHASE,
-            illumination: PHASE.ILLUMINATION,
-            distance: PHASE.DISTANCE,
-            nextPhases: PHASE.PHASES_NEXT_DATES
-          });
+            connection.query(query, [PHASE.PHASE_INFO.idPhase, PHASE.currentIllumination, PHASE.currentIllumination], (err, rows) => {
+                if (!err) {
+                    MOON_IMG += rows[0].path;
+                    
+                    return res.status(200).send({
+                      date: PHASE.DATE,
+                      img: MOON_IMG,
+                      age: PHASE.AGE,
+                      actualPhase: PHASE.PHASE_INFO.phase,
+                      behaviour: PHASE.PHASE_INFO.behaviour,
+                      calcPhase: PHASE.CALCPHASE,
+                      illumination: PHASE.ILLUMINATION,
+                      distance: PHASE.DISTANCE,
+                      nextPhases: PHASE.PHASES_NEXT_DATES
+                    });
+                }
+                else {
+                    console.log(err);
+                    return res.status(400).send(err);
+                }
+            })
+            connection.release();
+        });
     }
     else {
         if (!isNaN(new Date(req.params.date).getDate())) {
