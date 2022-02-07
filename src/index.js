@@ -8,7 +8,7 @@ import { notFound, catchErrors } from "./middlewares/errors.js";
 import config from "./config/config.js";
 // Import routes
 import moonRoutes from "./routes/moonRoutes.js";
-import emailRoutes from "./routes/emailRoutes.js";
+import emailRoutes from "./routes/nodeMailerRoutes.js";
 
 dotenv.config({ path: '.env' });
 
