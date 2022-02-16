@@ -20,7 +20,7 @@ const __dirname = dirname(__filename);
 // Views
 app.set('view engine', 'pug');
 app.set('views', path.join(__dirname, 'views'));
-app.use(express.static('public'));
+app.use(express.static(path.join(__dirname + "/")));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 

@@ -9,7 +9,7 @@ export default () => {
 
     api.get('/julian-date', catchAsync(moonController.calcJulianDate));
 
-    api.get('/julian-date/:date', catchAsync(moonController.calcMoonPhase));
+    api.get('/julian-date/:date', catchAsync(moonController.calcJulianDate));
 
     api.get('/phase', catchAsync(moonController.calcMoonPhase));
 

@@ -127,17 +127,18 @@ export default {
     if (!req.params.date) {
         let currentDate = new Date();
         const PHASE = getPhaseparams(currentDate);
-        let MOON_IMG = "http://localhost:8080/assets/images/moon/";
+        let MOON_IMG = "http://localhost:8015/assets/moon/";
         
-        const query = "SELECT * FROM images WHERE `id_phase` = ?  AND `illumination_min` = ? OR `illumination_max` = ?";
+        const query = "SELECT * FROM images WHERE `id_phase` = ?  AND `illumination_min` = ? OR `illumination_max` = ? OR `illumination_mid` = ?";
         pool.getConnection((err, connection) => {
             if (err) 
                 throw err;
 
-            connection.query(query, [PHASE.PHASE_INFO.idPhase, PHASE.currentIllumination, PHASE.currentIllumination], (err, rows) => {
-                if (!err) {
-                    MOON_IMG += rows[0].path;
-                    
+            connection.query(query, [PHASE.PHASE_INFO.idPhase, PHASE.currentIllumination, PHASE.currentIllumination, PHASE.currentIllumination], (err, rows) => {
+                if (!err) {         
+                  
+                    MOON_IMG += (rows[0].path);
+
                     return res.status(200).send({
                       date: PHASE.DATE,
                       img: MOON_IMG,
@@ -181,4 +182,4 @@ export default {
         }
       }
   }
-};
+}
