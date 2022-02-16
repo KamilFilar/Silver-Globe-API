@@ -1,4 +1,5 @@
 import express from "express";
+import cors from "cors";
 import bodyParser from "body-parser";
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
@@ -11,6 +12,8 @@ import nodeMailerRoutes from "./routes/nodeMailerRoutes.js";
 import newsletterRoutes from "./routes/newsletterRoutes.js";
 
 const app = express();
+// Cors to connect between localhosts
+app.use(cors({ credentials: true }));
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
